@@ -1,0 +1,583 @@
+/* ==========================================================================
+   EK-ASHA SUPERVISOR AUTHENTICATION & REGISTRATION MODULE (PHASE 1)
+   Independent visual styling - Glassmorphism, Responsive, Dynamic Role Hovers
+   ========================================================================== */
+
+.supervisor-auth-page {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  background-color: #0b1e36;
+  overflow-x: hidden;
+}
+
+/* Fullscreen Hero Background Image with Subtle Controlled Overlay */
+.supervisor-auth-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/images/supervisor-hero-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+  /* Controlled subtle blur - keeps the medical team and clinic fully recognizable */
+  filter: blur(2.5px);
+  transform: scale(1.02); /* Prevents blur edge bleed */
+}
+
+.supervisor-auth-overlay {
+  position: fixed;
+  inset: 0;
+  /* Controlled dark-glass gradient: readable foreground while preserving background scene */
+  background: radial-gradient(circle at 50% 40%, rgba(11, 30, 54, 0.42) 0%, rgba(11, 30, 54, 0.72) 100%);
+  z-index: 1;
+}
+
+/* Floating Central Card Container */
+.supervisor-auth-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 480px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 
+    0 20px 50px -10px rgba(11, 30, 54, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.8),
+    0 8px 24px -4px rgba(0, 0, 0, 0.1);
+  padding: 32px;
+  transition: 
+    max-width 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s ease,
+    border-color 0.4s ease,
+    background-color 0.4s ease;
+  overflow: hidden;
+}
+
+/* Expansion for Registration Form */
+.supervisor-auth-container.register-mode {
+  max-width: 760px;
+  padding: 36px 40px;
+}
+
+/* Dynamic Container Glow based on hovered role */
+.supervisor-auth-container.hover-supervisor {
+  border-color: rgba(16, 185, 129, 0.5);
+  box-shadow: 
+    0 24px 60px -10px rgba(5, 150, 105, 0.3),
+    0 0 0 1px rgba(16, 185, 129, 0.3),
+    0 0 35px rgba(16, 185, 129, 0.15);
+}
+
+.supervisor-auth-container.hover-asha {
+  border-color: rgba(168, 85, 247, 0.5);
+  box-shadow: 
+    0 24px 60px -10px rgba(147, 51, 234, 0.3),
+    0 0 0 1px rgba(168, 85, 247, 0.3),
+    0 0 35px rgba(236, 72, 153, 0.15);
+}
+
+.supervisor-auth-container.hover-user {
+  border-color: rgba(2, 132, 199, 0.5);
+  box-shadow: 
+    0 24px 60px -10px rgba(2, 132, 199, 0.3),
+    0 0 0 1px rgba(2, 132, 199, 0.3),
+    0 0 35px rgba(234, 179, 8, 0.18);
+}
+
+/* Header & Navigation inside card */
+.auth-card-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.auth-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #047857;
+  letter-spacing: 0.3px;
+  transition: all 0.3s ease;
+}
+
+.btn-auth-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(241, 245, 249, 0.8);
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  color: #475569;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-auth-back:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+  transform: translateX(-2px);
+}
+
+/* ==========================================================================
+   ROLE SELECTOR TAB SYSTEM with Smooth Transitions
+   ========================================================================== */
+.role-tabs-wrapper {
+  margin-bottom: 24px;
+}
+
+.role-tabs-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #64748b;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.role-tabs-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  background: rgba(241, 245, 249, 0.75);
+  padding: 4px;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+}
+
+.role-tab-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 8px;
+  border-radius: 10px;
+  border: 1.5px solid transparent;
+  background: transparent;
+  color: #64748b;
+  font-size: 0.825rem;
+  font-weight: 700;
+  cursor: pointer;
+  gap: 4px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.role-tab-btn .role-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  transition: all 0.35s ease;
+}
+
+/* Role 1: Supervisor / Admin (Light Green / Dark Green Theme) */
+.role-tab-btn.role-supervisor {
+  color: #047857;
+}
+
+.role-tab-btn.role-supervisor .role-icon-box {
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
+}
+
+.role-tab-btn.role-supervisor:hover,
+.role-tab-btn.role-supervisor.active {
+  background: linear-gradient(135deg, #ffffff 0%, #ecfdf5 100%);
+  border-color: #10b981;
+  color: #065f46;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.22);
+  transform: translateY(-1px);
+}
+
+.role-tab-btn.role-supervisor:hover .role-icon-box,
+.role-tab-btn.role-supervisor.active .role-icon-box {
+  background: #059669;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+/* Role 2: ASHA Worker (Purple / Pink Theme) */
+.role-tab-btn.role-asha {
+  color: #6b21a8;
+}
+
+.role-tab-btn.role-asha .role-icon-box {
+  background: rgba(168, 85, 247, 0.12);
+  color: #9333ea;
+}
+
+.role-tab-btn.role-asha:hover,
+.role-tab-btn.role-asha.active {
+  background: linear-gradient(135deg, #ffffff 0%, #faf5ff 100%);
+  border-color: #c084fc;
+  color: #581c87;
+  box-shadow: 0 4px 14px rgba(168, 85, 247, 0.22);
+  transform: translateY(-1px);
+}
+
+.role-tab-btn.role-asha:hover .role-icon-box,
+.role-tab-btn.role-asha.active .role-icon-box {
+  background: linear-gradient(135deg, #9333ea 0%, #db2777 100%);
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+/* Role 3: User (Blue / Yellow Theme) */
+.role-tab-btn.role-user {
+  color: #0369a1;
+}
+
+.role-tab-btn.role-user .role-icon-box {
+  background: rgba(2, 132, 199, 0.12);
+  color: #0284c7;
+}
+
+.role-tab-btn.role-user:hover,
+.role-tab-btn.role-user.active {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+  border-color: #38bdf8;
+  color: #0c4a6e;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.22);
+  transform: translateY(-1px);
+}
+
+.role-tab-btn.role-user:hover .role-icon-box,
+.role-tab-btn.role-user.active .role-icon-box {
+  background: linear-gradient(135deg, #0284c7 0%, #eab308 100%);
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+/* Non-supervisor switch info card */
+.alternate-role-card {
+  padding: 24px;
+  background: #f8fafc;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  text-align: center;
+  animation: fadeInAuth 0.3s ease;
+}
+
+/* Form Headings */
+.auth-form-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0f2942;
+  letter-spacing: -0.3px;
+  margin-bottom: 6px;
+}
+
+.auth-form-subtitle {
+  font-size: 0.875rem;
+  color: #64748b;
+  line-height: 1.45;
+  margin-bottom: 20px;
+}
+
+/* Input Fields & Groups */
+.auth-form-group {
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.auth-form-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
+.auth-form-label .required-dot {
+  color: #e11d48;
+  margin-left: 2px;
+}
+
+.auth-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.auth-input-icon {
+  position: absolute;
+  left: 12px;
+  color: #94a3b8;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+}
+
+.auth-input {
+  width: 100%;
+  padding: 11px 14px 11px 40px;
+  font-size: 0.9rem;
+  color: #0f2942;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 12px;
+  outline: none;
+  transition: all 0.25s ease;
+  font-family: inherit;
+}
+
+.auth-input.no-icon {
+  padding-left: 14px;
+}
+
+.auth-input:focus {
+  border-color: #059669;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.16);
+  background: #ffffff;
+}
+
+.auth-input::placeholder {
+  color: #94a3b8;
+  font-size: 0.85rem;
+}
+
+.auth-password-toggle {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s ease;
+}
+
+.auth-password-toggle:hover {
+  color: #475569;
+}
+
+/* Grid Layout for Registration */
+.auth-form-section-title {
+  font-size: 0.825rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #059669;
+  margin-top: 18px;
+  margin-bottom: 12px;
+  padding-bottom: 6px;
+  border-bottom: 1.5px solid #ecfdf5;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.auth-grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 640px) {
+  .auth-grid-2col {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .supervisor-auth-container.register-mode {
+    padding: 24px 20px;
+  }
+}
+
+/* Action Buttons */
+.btn-auth-primary {
+  width: 100%;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.3);
+  transition: all 0.25s ease;
+  margin-top: 8px;
+}
+
+.btn-auth-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 6px 18px rgba(5, 150, 105, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-auth-primary:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-auth-secondary {
+  padding: 10px 18px;
+  background: #ffffff;
+  color: #047857;
+  border: 1.5px solid #10b981;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-auth-secondary:hover {
+  background: #ecfdf5;
+}
+
+/* Switcher Link (Login <-> Register) */
+.auth-switch-prompt {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.auth-switch-link {
+  color: #059669;
+  font-weight: 700;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 4px;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.auth-switch-link:hover {
+  color: #047857;
+}
+
+/* Alerts and Messages */
+.auth-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  margin-bottom: 18px;
+  line-height: 1.45;
+  animation: fadeInAuth 0.3s ease;
+}
+
+.auth-alert-error {
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  color: #b91c1c;
+}
+
+.auth-alert-success {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #047857;
+}
+
+/* Authenticated State Placeholder (Requirement #21) */
+.auth-verified-card {
+  text-align: center;
+  padding: 10px 0;
+  animation: fadeInAuth 0.4s ease;
+}
+
+.verified-icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #ecfdf5;
+  color: #059669;
+  margin-bottom: 16px;
+  box-shadow: 0 0 0 8px rgba(16, 185, 129, 0.15);
+}
+
+.supervisor-details-sheet {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 18px;
+  margin: 20px 0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 0.875rem;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dashed #e2e8f0;
+  padding-bottom: 6px;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.detail-row-label {
+  color: #64748b;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.detail-row-val {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+/* Subtle Animations */
+@keyframes fadeInAuth {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.auth-fade-in {
+  animation: fadeInAuth 0.35s ease;
+}
