@@ -42,6 +42,13 @@ export const AppProvider = ({ children }) => {
   const toggleLanguage = (lang) => {
     setLanguage(lang);
     localStorage.setItem('ek_asha_lang', lang);
+    
+    // Trigger Google Translate Widget
+    const selectField = document.querySelector('.goog-te-combo');
+    if (selectField) {
+      selectField.value = lang === 'HI' ? 'hi' : 'en';
+      selectField.dispatchEvent(new Event('change'));
+    }
   };
 
   const showToast = (msg) => {

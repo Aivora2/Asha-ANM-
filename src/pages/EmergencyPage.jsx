@@ -3,7 +3,7 @@ import { useApp } from '../context/AppContext';
 import { PhoneCall, ShieldAlert, MapPin, Hospital, Users, Navigation, AlertTriangle } from 'lucide-react';
 
 export const EmergencyPage = () => {
-  const { setActiveModal, showToast } = useApp();
+  const { setActiveModal, showToast, user } = useApp();
 
   const handleAmbulanceDispatch = () => {
     showToast('🚨 DEMO REQUEST: 108 Emergency Ambulance Dispatched to your location!');
@@ -56,7 +56,13 @@ export const EmergencyPage = () => {
           <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: 16 }}>
             Sunita Devi (ASHA Worker - Beat 4, Sitapura). Phone: +91 98290 12345
           </p>
-          <button className="btn-primary" onClick={() => setActiveModal('emergency-sos')} style={{ justifyContent: 'center', width: '100%' }}>
+          <button className="btn-primary" onClick={() => {
+            if (!user) {
+              alert('login to connect to asha worker');
+            } else {
+              setActiveModal('emergency-sos');
+            }
+          }} style={{ justifyContent: 'center', width: '100%' }}>
             <Users size={18} /> Alert My ASHA Immediately
           </button>
         </div>

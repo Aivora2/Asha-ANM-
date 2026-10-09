@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
-import { Heart, Activity, Navigation, ArrowRight, ShieldCheck, AlertTriangle, Clock, MapPin, Users, CheckCircle, Sparkles, PhoneCall, X } from 'lucide-react';
+import { Heart, Activity, Navigation, ArrowRight, ShieldCheck, AlertTriangle, Clock, MapPin, Users, UserCheck, CheckCircle, Sparkles, PhoneCall, X } from 'lucide-react';
 import { FacilityMap } from '../components/FacilityMap';
 
 export const HomePage = () => {
@@ -9,16 +9,16 @@ export const HomePage = () => {
   // Hero Image Carousel state
   const heroImages = [
     {
-      url: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1200",
-      caption: "ASHA Worker Conducting Home Checkup in Sitapura"
+      url: '/images/media_1791483269547.jpg',
+      caption: 'ASHA Worker Conducting Home Checkup in Sitapura'
     },
     {
-      url: "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&q=80&w=1200",
-      caption: "Maternal & Child Healthcare Surveillance"
+      url: '/images/media_1791489023985.jpg',
+      caption: 'Maternal & Child Healthcare Surveillance'
     },
     {
-      url: "https://images.unsplash.com/photo-1581595220892-b0739db3ba8c?auto=format&fit=crop&q=80&w=1200",
-      caption: "Mobile Technology Empowering ANM Field Visit Planning"
+      url: '/images/media_1791489132357.jpg',
+      caption: 'Mobile Technology Empowering ANM Field Visit Planning'
     }
   ];
 
@@ -48,114 +48,162 @@ export const HomePage = () => {
   const calculatedScore = computeDemoRiskScore();
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 60 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
       
       {/* 1. HERO SECTION WITH CAROUSEL */}
-      <section style={{ position: 'relative', background: 'linear-gradient(135deg, #0b1e36 0%, #153a62 60%, #0284c7 100%)', color: '#ffffff', pt: 60, pb: 80, overflow: 'hidden' }}>
-        <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 40, alignItems: 'center' }}>
+      <section className="hero-section">
+        <div className="hero-inner">
           
           {/* Hero Left Content */}
-          <div>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(255, 255, 255, 0.12)', padding: '6px 14px', borderRadius: 30, backdropFilter: 'blur(10px)', marginBottom: 20, border: '1px solid rgba(255, 255, 255, 0.2)' }}>
-              <Sparkles size={16} color="#38bdf8" />
-              <span style={{ fontSize: '0.825rem', fontWeight: 700, color: '#e0f2fe' }}>
-                National Community Health Innovation
-              </span>
+          <div className="hero-left">
+            <div className="hero-eyebrow">
+              HEALTHIER COMMUNITIES | STRONGER RAJASTHAN
             </div>
 
-            <h1 style={{ fontSize: '2.5rem', fontWeight: 800, lineHeight: 1.2, letterSpacing: '-0.5px', marginBottom: 16 }}>
-              {t('hero_title')}
+            <h1 className="hero-heading">
+              Empowering ASHA &amp; ANM Workers<br/>for Better Healthcare
             </h1>
 
-            <p style={{ fontSize: '1.15rem', color: '#cbd5e1', lineHeight: 1.6, marginBottom: 30 }}>
-              {t('hero_subtitle')}
+            <p className="hero-desc">
+              Risk-weighted patient prioritization and optimized visit scheduling for ASHA &amp; ANM workers.
             </p>
 
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 14 }}>
-              <button className="btn-primary" style={{ padding: '12px 24px', fontSize: '1rem' }} onClick={() => setCurrentPage('map')}>
-                <MapPin size={18} /> {t('cta_find_health')}
+            <div className="hero-btn-group">
+              <button className="btn-primary hero-btn" onClick={() => setCurrentPage('map')}>
+                <MapPin size={16} /> Find Healthcare Near Me
               </button>
 
-              <button className="btn-secondary" style={{ padding: '12px 24px', fontSize: '1rem', background: 'rgba(255,255,255,0.1)', color: '#fff', borderColor: 'rgba(255,255,255,0.3)' }} onClick={() => handleLogin('ASHA')}>
-                <Users size={18} /> ASHA Worker Portal
+              <button className="btn-secondary hero-btn" onClick={() => handleLogin('ASHA')}>
+                <Users size={16} /> ASHA Worker Portal
               </button>
 
-              <button className="btn-emergency" style={{ padding: '12px 24px', fontSize: '1rem' }} onClick={() => setCurrentPage('emergency')}>
-                <PhoneCall size={18} /> {t('cta_help')}
+              <button className="btn-emergency hero-btn" onClick={() => setCurrentPage('emergency')}>
+                <PhoneCall size={16} /> Need Emergency Help?
               </button>
             </div>
           </div>
 
-          {/* Hero Right Image Carousel */}
-          <div style={{ position: 'relative', borderRadius: 20, overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.4)', height: 380, border: '2px solid rgba(255,255,255,0.2)' }}>
+          {/* Hero Right Image */}
+          <div className="hero-img-container">
             <img 
-              src={heroImages[currentSlide].url} 
-              alt="ASHA Worker" 
-              style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'all 0.5s ease' }} 
+              src="/images/media_1791489132357.jpg" 
+              alt="ASHA Worker with Route Optimizer" 
             />
-            <div style={{ position: 'absolute', bottom: 0, inset: 'auto 0 0 0', background: 'linear-gradient(to top, rgba(11, 30, 54, 0.95), transparent)', padding: '20px 24px', color: '#fff' }}>
-              <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#38bdf8' }}>FIELD VISITATION SIMULATION</div>
-              <div style={{ fontSize: '1rem', fontWeight: 600 }}>{heroImages[currentSlide].caption}</div>
-              
-              {/* Carousel Indicators */}
-              <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
-                {heroImages.map((_, i) => (
-                  <div 
-                    key={i} 
-                    onClick={() => setCurrentSlide(i)} 
-                    style={{ width: i === currentSlide ? 24 : 8, height: 8, borderRadius: 4, background: i === currentSlide ? '#0284c7' : 'rgba(255,255,255,0.4)', cursor: 'pointer', transition: 'all 0.3s ease' }} 
-                  />
-                ))}
-              </div>
-            </div>
           </div>
 
         </div>
       </section>
 
-      {/* 2. CORE PROBLEM SECTION */}
-      <section style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px' }}>
-        <div style={{ textAlign: 'center', maxWidth: 750, margin: '0 auto 40px auto' }}>
-          <span className="badge badge-critical" style={{ marginBottom: 8 }}>
-            <AlertTriangle size={14} /> Hackathon Problem Statement
-          </span>
-          <h2 style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--navy-deep)' }}>
-            {t('problem_title')}
-          </h2>
-          <p style={{ color: '#64748b', fontSize: '1.05rem', marginTop: 8 }}>
-            {t('problem_desc')}
-          </p>
+      {/* QUICK ACCESS SECTION */}
+      <section className="quick-access-wrapper">
+        <div className="quick-access-grid">
+          <div className="qa-card" onClick={() => setCurrentPage('map')} style={{ backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.85)), url("https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=400")' }}>
+            <div className="qa-icon"><Heart size={20} /></div>
+            <div className="qa-content">
+              <div className="qa-title">Find Hospitals</div>
+              <div className="qa-desc">Locate nearby hospitals and health centers</div>
+            </div>
+          </div>
+          <div className="qa-card" onClick={() => setCurrentPage('services')} style={{ backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.85)), url("https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=400")' }}>
+            <div className="qa-icon"><UserCheck size={20} /></div>
+            <div className="qa-content">
+              <div className="qa-title">Doctor Availability</div>
+              <div className="qa-desc">Check doctor timings, specialists & services</div>
+            </div>
+          </div>
+          <div className="qa-card" onClick={() => setCurrentPage('services')} style={{ backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.85)), url("https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&q=80&w=400")' }}>
+            <div className="qa-icon"><Activity size={20} /></div>
+            <div className="qa-content">
+              <div className="qa-title">Medicine & Shop</div>
+              <div className="qa-desc">Compare medicines, find nearby medical shops</div>
+            </div>
+          </div>
+          <div className="qa-card" onClick={() => setCurrentPage('services')} style={{ backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.85)), url("https://images.unsplash.com/photo-1516880711640-ef7daf815e92?auto=format&fit=crop&q=80&w=400")' }}>
+            <div className="qa-icon"><Clock size={20} /></div>
+            <div className="qa-content">
+              <div className="qa-title">Queue & Appointments</div>
+              <div className="qa-desc">Book appointments, check waiting time</div>
+            </div>
+          </div>
+          <div className="qa-card" onClick={() => setCurrentPage('services')} style={{ backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.85)), url("https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&q=80&w=400")' }}>
+            <div className="qa-icon"><Activity size={20} /></div>
+            <div className="qa-content">
+              <div className="qa-title">Blood & Organ Resources</div>
+              <div className="qa-desc">Donate or request blood and organs</div>
+            </div>
+          </div>
+          <div className="qa-card qa-active" onClick={() => setCurrentPage('map')} style={{ backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.85)), url("https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&q=80&w=400")' }}>
+            <div className="qa-icon"><MapPin size={20} /></div>
+            <div className="qa-content">
+              <div className="qa-title">Map & Route Optimizer</div>
+              <div className="qa-desc">Smarter visits, better coverage</div>
+            </div>
+          </div>
         </div>
+      </section>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
-          <div className="card" style={{ borderLeft: '4px solid #e11d48' }}>
-            <div style={{ fontSize: '2rem', marginBottom: 8 }}>👩‍⚕️</div>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f2942' }}>50+ Families Per ASHA</h3>
-            <p style={{ color: '#64748b', fontSize: '0.9rem', marginTop: 4 }}>
-              ASHA workers manage hundreds of pregnant mothers, malnourished infants, and diabetic elderly residents daily.
+      {/* 2. CORE PROBLEM SECTION */}
+      <section className="problem-section">
+        <div className="problem-inner">
+          <div className="problem-header">
+
+            <h2 className="problem-title">
+              {t('problem_title')}
+            </h2>
+            <p className="problem-desc">
+              {t('problem_desc')}
             </p>
           </div>
 
-          <div className="card" style={{ borderLeft: '4px solid #ea580c' }}>
-            <div style={{ fontSize: '2rem', marginBottom: 8 }}>🧭</div>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f2942' }}>Unoptimized Travel Routes</h3>
-            <p style={{ color: '#64748b', fontSize: '0.9rem', marginTop: 4 }}>
-              Travelling back-and-forth across non-contiguous villages wastes over 35% of field hours on roads instead of care.
-            </p>
+          <div className="problem-cards">
+            <div className="problem-card">
+              <div className="problem-card-icon problem-card-icon--red">
+                <span style={{ fontSize: '1.8rem' }}>👩‍⚕️</span>
+              </div>
+              <h3 className="problem-card-title">50+ Families Per ASHA</h3>
+              <p className="problem-card-desc">
+                ASHA workers manage hundreds of pregnant mothers, malnourished infants, and diabetic elderly residents daily.
+              </p>
+            </div>
+
+            <div className="problem-card">
+              <div className="problem-card-icon problem-card-icon--blue">
+                <span style={{ fontSize: '1.8rem' }}>🧭</span>
+              </div>
+              <h3 className="problem-card-title">Unoptimized Travel Routes</h3>
+              <p className="problem-card-desc">
+                Travelling back-and-forth across non-contiguous villages wastes over 35% of field hours on roads instead of care.
+              </p>
+            </div>
+
+            <div className="problem-card">
+              <div className="problem-card-icon problem-card-icon--orange">
+                <span style={{ fontSize: '1.8rem' }}>⚠️</span>
+              </div>
+              <h3 className="problem-card-title">Missed Critical Windows</h3>
+              <p className="problem-card-desc">
+                Static alphabetical or chronological patient lists fail to highlight sudden BP spikes or missed immunizations.
+              </p>
+            </div>
           </div>
 
-          <div className="card" style={{ borderLeft: '4px solid #f59e0b' }}>
-            <div style={{ fontSize: '2rem', marginBottom: 8 }}>⚠️</div>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: 800, color: '#0f2942' }}>Missed Critical Windows</h3>
-            <p style={{ color: '#64748b', fontSize: '0.9rem', marginTop: 4 }}>
-              Static alphabetical or chronological patient lists fail to highlight sudden BP spikes or missed immunizations.
-            </p>
+          <div className="problem-footer">
+            <div className="problem-footer-icon">👥</div>
+            <div className="problem-footer-divider"></div>
+            <div className="problem-footer-text">
+              <span className="problem-footer-stat">More families</span>
+              <span className="problem-footer-dot">•</span>
+              <span className="problem-footer-stat">Longer routes</span>
+              <span className="problem-footer-dot">•</span>
+              <span className="problem-footer-stat">Missed critical moments</span>
+              <p>Healthcare workers need smarter tools to prioritize who needs attention first.</p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* 3. CORE INNOVATION SECTION 1 - RISK-WEIGHTED PRIORITIZATION */}
-      <section style={{ background: '#ffffff', py: 60, borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
+      <section style={{ background: 'var(--very-light-blue)', paddingTop: 60, paddingBottom: 60, borderTop: '1px solid var(--border-color)', borderBottom: '1px solid var(--border-color)' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px' }}>
           
           <div style={{ textAlign: 'center', maxWidth: 800, margin: '0 auto 40px auto' }}>
@@ -171,7 +219,7 @@ export const HomePage = () => {
           </div>
 
           {/* Risk Level Matrix & Calculator Interactive Demo Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 32, alignItems: 'start' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))', gap: 32, alignItems: 'start' }}>
             
             {/* Risk Levels Display */}
             <div>
@@ -282,7 +330,7 @@ export const HomePage = () => {
       </section>
 
       {/* 4. ROUTE OPTIMIZATION SECTION */}
-      <section style={{ maxWidth: 1280, margin: '0 auto', padding: '0 24px' }}>
+      <section style={{ maxWidth: 1280, margin: '0 auto', padding: '40px 24px' }}>
         <div style={{ textAlign: 'center', maxWidth: 800, margin: '0 auto 40px auto' }}>
           <span className="badge badge-verified" style={{ marginBottom: 8 }}>
             <Navigation size={14} /> Core Innovation #2
@@ -296,7 +344,7 @@ export const HomePage = () => {
         </div>
 
         {/* Shortest vs Safe Route Comparison Diagram */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 24 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
           
           <div className="card" style={{ border: '2px solid #fecdd3', background: '#fff1f2' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#e11d48', fontWeight: 800, fontSize: '1.1rem', marginBottom: 12 }}>

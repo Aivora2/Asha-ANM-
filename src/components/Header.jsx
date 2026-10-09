@@ -42,12 +42,12 @@ export const Header = () => {
       <div className="nav-container">
         {/* Logo */}
         <div className="brand-logo" onClick={() => setCurrentPage('home')}>
-          <div className="logo-badge">
-            <Heart size={24} fill="#ffffff" />
-          </div>
-          <div>
-            <div className="brand-title">{t('brand_name')}</div>
-            <div className="brand-tagline">{t('tagline')}</div>
+          <div className="header-logo-wrap">
+            <img
+              src="/ek-asha-logo-transparent.png"
+              alt="Ek Asha Logo"
+              className="header-logo-img"
+            />
           </div>
         </div>
 
@@ -95,7 +95,7 @@ export const Header = () => {
 
           {/* User / Login Dropdown */}
           {user ? (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div className="user-actions-wrapper" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <button 
                 className="btn-primary"
                 onClick={() => {
@@ -183,16 +183,43 @@ export const Header = () => {
         <hr style={{ border: 'none', borderTop: '1px solid #e2e8f0' }} />
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#64748b' }}>Select Role Login:</div>
-          <button className="btn-secondary" onClick={() => handleRoleSelect('ASHA')}>
-            <UserCheck size={18} /> {t('login_asha')}
+          <button className="btn-emergency" onClick={() => handleNavClick('emergency')} style={{ width: '100%' }}>
+            <PhoneCall size={18} /> {t('nav_emergency')}
           </button>
-          <button className="btn-secondary" onClick={() => handleRoleSelect('SUPERVISOR')}>
-            <Shield size={18} /> {t('login_supervisor')}
-          </button>
-          <button className="btn-secondary" onClick={() => handleRoleSelect('CITIZEN_REGISTERED')}>
-            <Users size={18} /> {t('login_citizen')}
-          </button>
+          
+          <hr style={{ border: 'none', borderTop: '1px solid #e2e8f0', margin: '8px 0' }} />
+
+          {user ? (
+            <>
+              <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#64748b' }}>Logged In As:</div>
+              <button 
+                className="btn-primary" 
+                onClick={() => {
+                  if (user.role === 'ASHA') handleNavClick('asha-dashboard');
+                  else if (user.role === 'SUPERVISOR') handleNavClick('supervisor-dashboard');
+                  else handleNavClick('citizen-dashboard');
+                }}
+              >
+                <UserCheck size={18} /> Dashboard ({user.name.split(' ')[0]})
+              </button>
+              <button className="btn-secondary" onClick={() => { handleLogout(); setMobileOpen(false); }}>
+                <LogOut size={18} /> Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#64748b' }}>Select Role Login:</div>
+              <button className="btn-secondary" onClick={() => handleRoleSelect('ASHA')}>
+                <UserCheck size={18} /> {t('login_asha')}
+              </button>
+              <button className="btn-secondary" onClick={() => handleRoleSelect('SUPERVISOR')}>
+                <Shield size={18} /> {t('login_supervisor')}
+              </button>
+              <button className="btn-secondary" onClick={() => handleRoleSelect('CITIZEN_REGISTERED')}>
+                <Users size={18} /> {t('login_citizen')}
+              </button>
+            </>
+          )}
         </div>
       </div>
     </header>
