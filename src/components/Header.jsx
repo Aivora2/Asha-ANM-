@@ -1,0 +1,236 @@
+import React, { useState } from 'react';
+import { useApp } from '../context/AppContext';
+import { Heart, UserCheck, Shield, Users, Menu, X, ChevronDown, PhoneCall, AlertTriangle, LogOut } from 'lucide-react';
+
+export const Header = () => {
+  const { language, toggleLanguage, t, currentPage, setCurrentPage, user, handleLogin, handleLogout, offlineMode, toggleOfflineMode } = useApp();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  let navItems = [
+    { key: 'home', label: t('nav_home') },
+    { key: 'about', label: t('nav_about') },
+    { key: 'services', label: t('nav_services') },
+    { key: 'map', label: t('nav_map') },
+    { key: 'grievances', label: t('nav_grievances') },
+    { key: 'contact', label: t('nav_contact') },
+  ];
+
+  if (user && user.role === 'CITIZEN_REGISTERED') {
+    navItems = [
+      { key: 'citizen-dashboard#risk-score', label: 'Risk Score' },
+      { key: 'citizen-dashboard#health-status', label: 'Health Status' },
+      { key: 'citizen-dashboard#alerts', label: 'Alerts & Help' },
+      { key: 'citizen-dashboard#location', label: 'Location Access' },
+    ];
+  }
+
+  const handleNavClick = (key) => {
+    if (key.includes('#')) {
+      const [page, hash] = key.split('#');
+      if (currentPage !== page) {
+        setCurrentPage(page);
+        setTimeout(() => {
+          const el = document.getElementById(hash);
+          if (el) {
+            const yOffset = -80; 
+            const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+            window.scrollTo({top: y, behavior: 'smooth'});
+          }
+        }, 100);
+      } else {
+        const el = document.getElementById(hash);
+        if (el) {
+          const yOffset = -80; 
+          const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({top: y, behavior: 'smooth'});
+        }
+      }
+    } else {
+      setCurrentPage(key);
+      window.scrollTo(0, 0);
+    }
+    setMobileOpen(false);
+  };
+
+  const handleRoleSelect = (role) => {
+    setDropdownOpen(false);
+    setMobileOpen(false);
+    handleLogin(role);
+  };
+
+  return (
+    <header className="header-nav">
+      {offlineMode && (
+        <div className="offline-banner">
+          <AlertTriangle size={16} />
+          <span>{t('offline_mode')} - Pending changes saved locally</span>
+          <button onClick={toggleOfflineMode} style={{ textDecoration: 'underline', color: '#fff', marginLeft: 10 }}>
+            Go Online
+          </button>
+        </div>
+      )}
+      
+      <div className="nav-container">
+        {/* Logo */}
+        <div className="brand-logo" onClick={() => setCurrentPage('home')}>
+          <div className="logo-badge">
+            <Heart size={24} fill="#ffffff" />
+          </div>
+          <div>
+            <div className="brand-title">{t('brand_name')}</div>
+            <div className="brand-tagline">{t('tagline')}</div>
+          </div>
+        </div>
+
+        {/* Desktop Links */}
+        <ul className="nav-links">
+          {navItems.map(item => (
+            <li key={item.key}>
+              <button
+                className={`nav-link ${currentPage === item.key ? 'active' : ''}`}
+                onClick={() => handleNavClick(item.key)}
+              >
+                {item.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+
+        {/* Header Actions */}
+        <div className="header-actions">
+          {/* Language Switcher */}
+          <div className="lang-toggle">
+            <button
+              className={`lang-btn ${language === 'EN' ? 'active' : ''}`}
+              onClick={() => toggleLanguage('EN')}
+            >
+              EN
+            </button>
+            <button
+              className={`lang-btn ${language === 'HI' ? 'active' : ''}`}
+              onClick={() => toggleLanguage('HI')}
+            >
+              हिंदी
+            </button>
+          </div>
+
+          {/* Emergency SOS direct button */}
+          <button 
+            className="btn-emergency"
+            onClick={() => setCurrentPage('emergency')}
+            title="Emergency Assistance"
+          >
+            <PhoneCall size={18} />
+            <span>{t('nav_emergency')}</span>
+          </button>
+
+          {/* User / Login Dropdown */}
+          {user ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <button 
+                className="btn-primary"
+                onClick={() => {
+                  if (user.role === 'ASHA') setCurrentPage('asha-dashboard');
+                  else if (user.role === 'SUPERVISOR') setCurrentPage('supervisor-dashboard');
+                  else setCurrentPage('citizen-dashboard');
+                }}
+              >
+                <UserCheck size={18} />
+                <span>{user.name.split(' ')[0]}</span>
+              </button>
+              <button 
+                onClick={handleLogout} 
+                title="Logout" 
+                style={{ padding: 8, borderRadius: 8, background: '#f1f5f9', color: '#64748b' }}
+              >
+                <LogOut size={18} />
+              </button>
+            </div>
+          ) : (
+            <div className="login-dropdown-wrapper">
+              <button 
+                className="btn-primary"
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+              >
+                <span>{t('nav_login')}</span>
+                <ChevronDown size={16} />
+              </button>
+
+              {dropdownOpen && (
+                <div className="dropdown-menu">
+                  <button className="dropdown-item" onClick={() => handleRoleSelect('SUPERVISOR')}>
+                    <Shield size={18} color="#153a62" />
+                    <span>{t('login_supervisor')}</span>
+                  </button>
+                  <button className="dropdown-item" onClick={() => handleRoleSelect('ASHA')}>
+                    <UserCheck size={18} color="#0284c7" />
+                    <span>{t('login_asha')}</span>
+                  </button>
+                  <button className="dropdown-item" onClick={() => {
+                    setCurrentPage('citizen-login');
+                    setDropdownOpen(false);
+                    setMobileOpen(false);
+                  }}>
+                    <Users size={18} color="#10b981" />
+                    <span>Citizen Login</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Mobile Hamburger Toggle */}
+          <button 
+            className="hamburger-btn" 
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle navigation menu"
+          >
+            {mobileOpen ? <X size={26} /> : <Menu size={26} />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Drawer */}
+      {mobileOpen && <div className="drawer-backdrop" onClick={() => setMobileOpen(false)} />}
+      <div className={`mobile-drawer ${mobileOpen ? 'open' : ''}`}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e2e8f0', pb: 12 }}>
+          <div className="brand-title">{t('brand_name')}</div>
+          <button onClick={() => setMobileOpen(false)}><X size={24} /></button>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {navItems.map(item => (
+            <button
+              key={item.key}
+              className={`nav-link ${currentPage === item.key ? 'active' : ''}`}
+              style={{ textAlign: 'left', fontSize: '1.05rem', padding: '12px' }}
+              onClick={() => handleNavClick(item.key)}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+
+        <hr style={{ border: 'none', borderTop: '1px solid #e2e8f0' }} />
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#64748b' }}>Select Role Login:</div>
+          <button className="btn-secondary" onClick={() => handleRoleSelect('SUPERVISOR')}>
+            <Shield size={18} /> {t('login_supervisor')}
+          </button>
+          <button className="btn-secondary" onClick={() => handleRoleSelect('ASHA')}>
+            <UserCheck size={18} /> {t('login_asha')}
+          </button>
+          <button className="btn-secondary" onClick={() => {
+            setCurrentPage('citizen-login');
+            setDropdownOpen(false);
+            setMobileOpen(false);
+          }}>
+            <Users size={18} /> Citizen Login
+          </button>
+        </div>
+      </div>
+    </header>
+  );
+};
